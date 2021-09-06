@@ -1,5 +1,5 @@
 projects:
-  aic2021:
+  My AppSync App:
     schemaPath: src/graphql/schema.json
     includes:
       - src/graphql/**/*.js
@@ -10,3 +10,9 @@ projects:
         codeGenTarget: javascript
         generatedFileName: ''
         docsFilePath: src/graphql
+        region: ap-southeast-1
+        apiId: 2zg6i6vqt5a6pfz7gho6eacxlu
+        maxDepth: 2
+extensions:
+  amplify:
+    version: 3

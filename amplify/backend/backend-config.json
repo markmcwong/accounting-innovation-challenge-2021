@@ -1,22 +1,5 @@
 {
-  "api": {
-    "aic2021": {
-      "service": "AppSync",
-      "providerPlugin": "awscloudformation",
-      "output": {
-        "authConfig": {
-          "defaultAuthentication": {
-            "authenticationType": "API_KEY",
-            "apiKeyConfig": {
-              "apiKeyExpirationDays": 30,
-              "description": "aic-API"
-            }
-          },
-          "additionalAuthenticationProviders": []
-        }
-      }
-    }
-  },
+  "api": {},
   "auth": {
     "aic2021d309b982": {
       "service": "Cognito",
@@ -40,5 +23,12 @@
         ]
       }
     }
-  }
+  },
+  "storage": {
+    "aic2021": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation"
+    }
+  },
+  "function": {}
 }

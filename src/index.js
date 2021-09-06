@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import { store } from "./app/store";
+import store from "./store";
 import { Provider } from "react-redux";
 import * as serviceWorker from "./serviceWorker";
 import Amplify, { Auth } from "aws-amplify";
@@ -11,6 +11,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 Amplify.configure(config);
 Auth.configure(config);
+if (module.hot) {
+  module.hot.accept();
+}
 
 ReactDOM.render(
   <React.StrictMode>
