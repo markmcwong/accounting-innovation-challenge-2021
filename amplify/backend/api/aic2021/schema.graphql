@@ -1,0 +1,75 @@
+type Project @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  projectName: String!
+  entriesURL: AWSURL
+  Accounts: [Account] @connection(keyName: "byProject", fields: ["id"])
+  owner: String
+}
+
+type Transaction @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  date: AWSDate
+  amountInGJ: Float!
+  amountInInvoice: Float!
+  amountInBook: Float
+  particular: String
+  contract: AWSURL
+  contractNumber: String
+  accounts: [AccountTransaction]
+    @connection(keyName: "byTransaction", fields: ["id"])
+  Invoices: [Invoice] @connection(keyName: "byTransaction", fields: ["id"])
+}
+
+type Invoice
+  @model
+  @auth(rules: [{ allow: public }])
+  @key(name: "byTransaction", fields: ["transactionID"]) {
+  id: ID!
+  invoiceNumber: String
+  date: AWSDate
+  amount: Float!
+  transactionID: ID
+}
+
+enum Category {
+  SALES
+  COST_OF_GOOD_SOLD
+  OTHER_REVENUES
+  EXPENSES
+  NON_CURRENT_ASSETS
+  CURRENT_ASSETS
+  NON_CURRENT_LIABILITIES
+  CURRENT_LIABILITIES
+  CAPITAL
+}
+
+type Account
+  @model
+  @auth(rules: [{ allow: public }])
+  @key(name: "byProject", fields: ["projectID"]) {
+  id: ID!
+  endBalance: Float
+  category: Category
+  specialBook: AWSURL
+  name: String!
+  AccountTransactions: [AccountTransaction]
+    @connection(keyName: "byAccount", fields: ["id"])
+  projectID: ID
+}
+
+type AccountTransaction
+  @model(queries: null)
+  @key(name: "byAccount", fields: ["accountID", "transactionID"])
+  @key(name: "byTransaction", fields: ["transactionID", "accountID"])
+  @auth(rules: [{ allow: public }, { allow: public }]) {
+  id: ID!
+  accountID: ID!
+  transactionID: ID!
+  account: Account! @connection(fields: ["accountID"])
+  transaction: Transaction! @connection(fields: ["transactionID"])
+}
+
+type Mutation {
+  csvToDB(projectId: String, fileName: String): String
+    @function(name: "csvToDB-${env}")
+}

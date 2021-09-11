@@ -1,0 +1,11 @@
+{
+  "AppSyncApiName": "aic2021",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authaic2021d309b982",
+      "Outputs.UserPoolId"
+    ]
+  }
+}

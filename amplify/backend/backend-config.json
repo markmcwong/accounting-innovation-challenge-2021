@@ -1,5 +1,32 @@
 {
-  "api": {},
+  "api": {
+    "aic2021": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 30,
+              "description": "api key description"
+            }
+          },
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "AWS_IAM"
+            },
+            {
+              "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+              "userPoolConfig": {
+                "userPoolId": "authaic2021d309b982"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
   "auth": {
     "aic2021d309b982": {
       "service": "Cognito",
@@ -30,5 +57,17 @@
       "providerPlugin": "awscloudformation"
     }
   },
-  "function": {}
+  "function": {
+    "csvToDB": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda",
+      "dependsOn": []
+    },
+    "transactionToAccounts": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  }
 }

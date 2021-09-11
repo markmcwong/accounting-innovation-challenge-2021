@@ -12,12 +12,14 @@ import { AmplifyAuthenticator, withAuthenticator } from "@aws-amplify/ui-react";
 import { AuthState, onAuthUIStateChange } from "@aws-amplify/ui-components";
 import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
-import Step1 from "pages/Step1";
+import Categories from "pages/Categories";
 import Header from "components/Header";
 import { useDispatch } from "react-redux";
 import { getProjects, login } from "actions/userActions";
 import { Auth } from "aws-amplify";
-import Sales from "pages/Sales";
+import Accounts from "pages/Accounts";
+import AccountTransactions from "./pages/AccountTransactions";
+import InvoicesUpload from "pages/InvoicesUpload";
 
 function App() {
   const dispatch = useDispatch();
@@ -34,7 +36,7 @@ function App() {
       setAuthState(nextAuthState);
       setUser(authData);
       if (authState === AuthState.SignedIn) {
-        getProjects(authData.attributes.sub);
+        // dispatch(getProjects(authData.attributes.sub));
       }
     });
   }, []);
@@ -49,8 +51,18 @@ function App() {
         {authState === AuthState.SignedIn && user ? (
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/sales" component={Sales} />
-            <Route exact path="/list" component={Step1} />
+            <Route exact path="/accounts/:id" component={Accounts} />
+            <Route
+              exact
+              path="/accounts/:id/upload"
+              component={InvoicesUpload}
+            />
+            <Route exact path="/categories" component={Categories} />
+            <Route
+              exact
+              path="/accounts/:id/transaction/:transId"
+              component={AccountTransactions}
+            />
           </Switch>
         ) : (
           <Redirect to={{ pathname: "/login" }} />
