@@ -1,5 +1,5 @@
 import React from "react";
-import Table from "react-bootstrap/table";
+import Table from "react-bootstrap/Table";
 import "./Table.css";
 import { IoDownloadOutline } from "react-icons/io5";
 import { Storage } from "aws-amplify";
