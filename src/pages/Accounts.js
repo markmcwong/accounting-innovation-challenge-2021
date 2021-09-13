@@ -5,6 +5,8 @@ import { IoCaretBack } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { API } from "aws-amplify";
 import * as queries from "../graphql/queries";
+import { numberWithCommas } from "core/helper";
+import { books } from "../constants";
 
 const Accounts = (props) => {
   const history = useHistory();
@@ -50,19 +52,29 @@ const Accounts = (props) => {
         </div>
 
         <div className="text-3xl font-semibold">
-          $ {props.location.state.sales.endBalance}
+          SGD $
+          {(props.location.state.sales.endBalance < 0 ? "(" : "") +
+            numberWithCommas(
+              Math.abs(props.location.state.sales.endBalance) +
+                (props.location.state.sales.endBalance < 0 && ")")
+            )}
         </div>
       </div>
       <div className="w-full mt-4">
         {data && (
           <CustomTable
             data={data}
+            isCashTable={
+              props.location.state.sales.name === "Cash" ||
+              props.location.state.sales.name === "Bank"
+            }
+            isBook={books.includes(props.location.state.sales.name)}
             navigateCallback={(
               id,
               index,
               date,
               amountInGJ,
-              amountFound,
+              amountInInvoice,
               status
             ) =>
               props.history.push({
@@ -75,7 +87,7 @@ const Accounts = (props) => {
                   index,
                   date,
                   amountInGJ,
-                  amountFound,
+                  amountInInvoice,
                   status,
                 },
               })

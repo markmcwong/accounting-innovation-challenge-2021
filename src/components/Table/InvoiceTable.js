@@ -2,6 +2,7 @@ import React from "react";
 import Table from "react-bootstrap/table";
 import "./Table.css";
 import { IoDownloadOutline } from "react-icons/io5";
+import { Storage } from "aws-amplify";
 
 const InvoiceTable = ({ data, type = "Not sales", navigateCallback }) => {
   return (
@@ -28,6 +29,12 @@ const InvoiceTable = ({ data, type = "Not sales", navigateCallback }) => {
                   className="cursor-pointer"
                   color="#00386B"
                   size="24"
+                  onClick={async () => {
+                    const signedURL = await Storage.get(
+                      item.downloadURL.substring(7, item.downloadURL.length)
+                    );
+                    window.open(signedURL);
+                  }}
                 />
               </td>
             </tr>

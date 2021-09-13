@@ -17,105 +17,14 @@ transactions = 'Transaction-igpj4yfefngbnk3whqdz4aojvi-dev'
 accountTransactions = 'AccountTransaction-igpj4yfefngbnk3whqdz4aojvi-dev'
 accounts = 'Account-igpj4yfefngbnk3whqdz4aojvi-dev'
 APPSYNC_API_ENDPOINT_URL = 'https://wmkmdvnpbrfs7ndv4i2x2337fq.appsync-api.ap-southeast-1.amazonaws.com/graphql'
+projectID = ''
+gjFileName = ''
 
 
 def lambda_handler(event, context):
-    body = json.loads(event['body'])
-    projectID = body['projectId']
-    gjFileName = body['fileName']
-
-    def getListOfAccounts():
-        url = "https://wmkmdvnpbrfs7ndv4i2x2337fq.appsync-api.ap-southeast-1.amazonaws.com/graphql"
-        payload = "{\"query\":\"query MyQuery {\\n  listAccounts(filter: {projectID: {eq: \\\"" + projectID + \
-            "\\\"}}) {\\n    items {\\n      name\\n      id\\n    }\\n  }\\n}\",\"variables\":{}}"
-        headers = {
-            'x-api-key': 'da2-sdyvfihih5flhe3s4wgdzg3u4q',
-            'Content-Type': 'application/json'
-        }
-        response = request("POST", url, headers=headers, data=payload)
-        print(response.json())
-        return (response.json()
-                ['data']['listAccounts']['items'])
-
-    def getListOfTransactions(particular):
-        url = "https://wmkmdvnpbrfs7ndv4i2x2337fq.appsync-api.ap-southeast-1.amazonaws.com/graphql"
-        payload = "{\"query\":\"query MyQuery {\\n  listTransactions(filter: {particular: {eq: \\\"" + str(
-            particular) + "\\\"}}) {\\n    items {\\n      id\\n    }\\n  }\\n}\",\"variables\":{}}"
-        headers = {
-            'x-api-key': 'da2-sdyvfihih5flhe3s4wgdzg3u4q',
-            'Content-Type': 'application/json'
-        }
-        response = request("POST", url, headers=headers, data=payload)
-        # print(response.text)
-        return (list(map(lambda x: x['id'], response.json()
-                         ['data']['listTransactions']['items'])))
-
-    def write_to_dynamo(rows):
-        table = dynamodb.Table(transactions)
-        accountsTable = dynamodb.Table(accounts)
-        accountTransactionsTable = dynamodb.Table(accountTransactions)
-        lastRecordedDate = None
-        records = {}
-        currentTime = datetime.utcnow()
-        currentTimeInString = currentTime.isoformat()[:-3] + 'Z'
-        with table.batch_writer() as batch:
-            for row in rows:
-                # insert transaction\
-                if (row['date'] != ''):
-                    lastRecordedDate = row['date']
-                if not(row['debit'] == '' and row['credit'] == ''):
-                    if (row['particulars'] != '' and row['particulars'] not in records):
-                        records[row['particulars']
-                                ] = Decimal(row['debit'] if (row['debit'] != '') else row['credit'])
-                    else:
-                        records[row['particulars']
-                                ] += Decimal(row['debit'] if (row['debit'] != '') else row['credit'])
-                    batch.put_item(
-                        Item={
-                            'id': str(uuid.uuid4()),
-                            'date': row['date'] if (row['date'] != '') else lastRecordedDate,
-                            'amountInGJ': Decimal(row['debit'] if (row['debit'] != '') else row['credit']),
-                            'projectID': projectID,
-                            'createdAt': currentTimeInString,
-                            'updatedAt': currentTimeInString,
-                            'particular': row['particulars']
-                            # '_lastChangedAt': time.mktime((ciso8601.parse_datetime(currentTimeInString)).timetuple()),
-                        }
-                    )
-
-        with accountsTable.batch_writer() as accountsBatch:
-            for key in records:
-                accountsBatch.put_item(
-                    Item={
-                        'id': str(uuid.uuid4()),
-                        'projectID': 'f5a80c8a-5f6a-466e-bc53-6f1f22299191',
-                        'name': key,
-                        'category': 'test',
-                        'endBalance': Decimal(records[key]),
-                        'createdAt': currentTimeInString,
-                        'updatedAt': currentTimeInString,
-                        # '_lastChangedAt': time.mktime((ciso8601.parse_datetime(currentTimeInString)).timetuple()),
-                    }
-                )
-
-        listOfAccounts = getListOfAccounts()
-        with accountTransactionsTable.batch_writer() as aTbatch:
-            for account in listOfAccounts:
-                print(account['name'])
-                listOfTransactions = getListOfTransactions(account['name'])
-                print(listOfTransactions)
-                for transaction in listOfTransactions:
-                    aTbatch.put_item(
-                        Item={
-                            'id': str(uuid.uuid4()),
-                            'accountID': account['id'],
-                            'transactionID': transaction,
-                            # '_lastChangedAt': time.mktime((ciso8601.parse_datetime(currentTimeInString)).timetuple()),
-                        }
-                    )
-    # projectID = "f5a80c8a-5f6a-466e-bc53-6f1f22299191"
-    # gjFileName = "trial1_csv (1).csv"
-    print('public/' + gjFileName)
+    projectID = event['projectId']
+    gjFileName = event['fileName']
+    print(event)
     obj = bucket.Object('public/' + gjFileName).get()
     new = codecs.getreader('utf-8')(obj['Body'])
     next(new, None)
@@ -123,10 +32,107 @@ def lambda_handler(event, context):
         new, fieldnames=['date', 'particulars', 'debit', 'credit']))
     # test()
     return {
-        "isBase64Encoded": False,
-        # 'statusCode': 200,
+        'statusCode': 200,
+        'headers': {
+            'Access-Control-Allow-Headers': '*',
+            'Access-Control-Allow-Origin': '*',
+        },
         'body': json.dumps('Hello from your new Amplify Python lambda!')
     }
+
+
+def getListOfAccounts():
+    url = "https://wmkmdvnpbrfs7ndv4i2x2337fq.appsync-api.ap-southeast-1.amazonaws.com/graphql"
+    payload = "{\"query\":\"query MyQuery {\\n  listAccounts(filter: {projectID: {eq: \\\"" + projectID + \
+        "\\\"}}) {\\n    items {\\n      name\\n      id\\n    }\\n  }\\n}\",\"variables\":{}}"
+    headers = {
+        'x-api-key': 'da2-sdyvfihih5flhe3s4wgdzg3u4q',
+        'Content-Type': 'application/json'
+    }
+    response = request("POST", url, headers=headers, data=payload)
+    return (response.json()
+            ['data']['listAccounts']['items'])
+
+
+def getListOfTransactions(particular):
+    url = "https://wmkmdvnpbrfs7ndv4i2x2337fq.appsync-api.ap-southeast-1.amazonaws.com/graphql"
+    payload = "{\"query\":\"query MyQuery {\\n  listTransactions(filter: {particular: {eq: \\\"" + str(
+        particular) + "\\\"}}) {\\n    items {\\n      id\\n    }\\n  }\\n}\",\"variables\":{}}"
+    headers = {
+        'x-api-key': 'da2-sdyvfihih5flhe3s4wgdzg3u4q',
+        'Content-Type': 'application/json'
+    }
+    response = request("POST", url, headers=headers, data=payload)
+    # print(response.text)
+    return (list(map(lambda x: x['id'], response.json()
+                     ['data']['listTransactions']['items'])))
+
+
+def write_to_dynamo(rows):
+    table = dynamodb.Table(transactions)
+    accountsTable = dynamodb.Table(accounts)
+    accountTransactionsTable = dynamodb.Table(accountTransactions)
+    lastRecordedDate = None
+    records = {}
+    currentTime = datetime.utcnow()
+    currentTimeInString = currentTime.isoformat()[:-3] + 'Z'
+    with table.batch_writer() as batch:
+        for row in rows:
+            # insert transaction\
+            if (row['date'] != ''):
+                lastRecordedDate = row['date']
+            if not(row['debit'] == '' and row['credit'] == ''):
+                if (row['particulars'] != '' and row['particulars'] not in records):
+                    records[row['particulars']
+                            ] = Decimal(row['debit'] if (row['debit'] != '') else row['credit'])
+                else:
+                    records[row['particulars']
+                            ] += Decimal(row['debit'] if (row['debit'] != '') else row['credit'])
+                batch.put_item(
+                    Item={
+                        'id': str(uuid.uuid4()),
+                        'date': row['date'] if (row['date'] != '') else lastRecordedDate,
+                        'amountInGJ': Decimal(row['debit'] if (row['debit'] != '') else row['credit']),
+                        'projectID': 'f5a80c8a-5f6a-466e-bc53-6f1f22299191',
+                        'createdAt': currentTimeInString,
+                        'updatedAt': currentTimeInString,
+                        'particular': row['particulars']
+                        # '_lastChangedAt': time.mktime((ciso8601.parse_datetime(currentTimeInString)).timetuple()),
+                    }
+                )
+
+    with accountsTable.batch_writer() as accountsBatch:
+        # print('recorsds: ')
+        # print(records)
+        for key in records:
+            accountsBatch.put_item(
+                Item={
+                    'id': str(uuid.uuid4()),
+                    'projectID': 'f5a80c8a-5f6a-466e-bc53-6f1f22299191',
+                    'name': key,
+                    'category': 'test',
+                    'endBalance': Decimal(records[key]),
+                    'createdAt': currentTimeInString,
+                    'updatedAt': currentTimeInString,
+                    # '_lastChangedAt': time.mktime((ciso8601.parse_datetime(currentTimeInString)).timetuple()),
+                }
+            )
+
+    listOfAccounts = getListOfAccounts()
+    with accountTransactionsTable.batch_writer() as aTbatch:
+        for account in listOfAccounts:
+            # print(account['name'])
+            listOfTransactions = getListOfTransactions(account['name'])
+            # print(listOfTransactions)
+            for transaction in listOfTransactions:
+                aTbatch.put_item(
+                    Item={
+                        'id': str(uuid.uuid4()),
+                        'accountID': account['id'],
+                        'transactionID': transaction,
+                        # '_lastChangedAt': time.mktime((ciso8601.parse_datetime(currentTimeInString)).timetuple()),
+                    }
+                )
 
 
 # def test():

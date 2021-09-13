@@ -11,3 +11,7 @@ export function groupBy(list, keyGetter) {
   });
   return Array.from(map).map(([name, items]) => ({ name, items }));
 }
+
+export function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}

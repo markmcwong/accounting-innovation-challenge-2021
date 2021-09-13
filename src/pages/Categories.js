@@ -40,6 +40,11 @@ const Categories = () => {
     CAPITAL: "Capital",
     CURRENT_ASSETS: "Current Assets",
     EXPENSES: "Expenses",
+    SALES: "Sales",
+    NON_CURRENT_ASSETS: "Non-Current Assets",
+    CURRENT_LIABILITIES: "Current Liabilities",
+    NON_CURRENT_LIABILITIES: "Non-Current Liabilities",
+    OTHER_REVENUES: "Other Revenues",
   };
 
   return (
@@ -52,7 +57,9 @@ const Categories = () => {
                 <div className="text-xl font-medium">
                   {categories[item.name]}
                 </div>
-                <div className="mb-0 align-self-center">2 items</div>
+                <div className="mb-0 align-self-center">
+                  {item.items.length} items
+                </div>
               </div>
             </Accordion.Header>
             <Accordion.Body className="flex flex-col align-items-start">

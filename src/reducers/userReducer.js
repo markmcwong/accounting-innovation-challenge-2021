@@ -18,7 +18,9 @@ export default function (state = initialState, action) {
       console.log(action.payload.data.listProjects.items);
       return {
         ...state,
-        projects: action.payload.data.listProjects.items,
+        projects: action.payload.data.listProjects.items.sort((a, b) =>
+          a.createdAt > b.createdAt ? 1 : -1
+        ),
       };
     default:
       return state;

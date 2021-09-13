@@ -1,6 +1,106 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
+export const getAccountTransactions = `
+  query GetAccount ($id: ID!) {
+    getAccount(id: $id) {
+      AccountTransactions {
+        items {
+          transaction {
+            id
+            amountInGJ
+            date
+            createdAt
+            particular
+            amountInInvoice
+            isDebit
+            customer
+            amountInBook
+            contractNumber
+          }
+        }
+      }
+    }
+  }
+`;
 
+export const getTransactiionInvoices = `
+  query GetAccount ($id: ID!) {
+    getTransaction(id: $id) {
+      Invoices {
+        items {
+          date
+          amount
+          invoiceNumber
+          downloadURL
+        }
+      }
+    }
+  }
+`;
+export const getNotification = /* GraphQL */ `
+  query GetNotification($id: ID!) {
+    getNotification(id: $id) {
+      id
+      user
+      message
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listNotifications = /* GraphQL */ `
+  query ListNotifications(
+    $filter: ModelNotificationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listNotifications(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        user
+        message
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncNotifications = /* GraphQL */ `
+  query SyncNotifications(
+    $filter: ModelNotificationFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncNotifications(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        user
+        message
+        _version
+        _deleted
+        _lastChangedAt
+        createdAt
+        updatedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
 export const getProject = /* GraphQL */ `
   query GetProject($id: ID!) {
     getProject(id: $id) {
@@ -8,11 +108,34 @@ export const getProject = /* GraphQL */ `
       projectName
       entriesURL
       owner
+      bookIncomplete
       _version
       _deleted
       _lastChangedAt
       createdAt
       updatedAt
+      Transactions {
+        items {
+          id
+          date
+          amountInGJ
+          amountInInvoice
+          amountInBook
+          particular
+          contract
+          contractNumber
+          projectID
+          isDebit
+          customer
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
       Accounts {
         items {
           id
@@ -21,6 +144,7 @@ export const getProject = /* GraphQL */ `
           specialBook
           name
           projectID
+          isUploaded
           _version
           _deleted
           _lastChangedAt
@@ -45,11 +169,16 @@ export const listProjects = /* GraphQL */ `
         projectName
         entriesURL
         owner
+        bookIncomplete
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
+        Transactions {
+          nextToken
+          startedAt
+        }
         Accounts {
           nextToken
           startedAt
@@ -78,11 +207,16 @@ export const syncProjects = /* GraphQL */ `
         projectName
         entriesURL
         owner
+        bookIncomplete
         _version
         _deleted
         _lastChangedAt
         createdAt
         updatedAt
+        Transactions {
+          nextToken
+          startedAt
+        }
         Accounts {
           nextToken
           startedAt
@@ -104,6 +238,9 @@ export const getTransaction = /* GraphQL */ `
       particular
       contract
       contractNumber
+      projectID
+      isDebit
+      customer
       _version
       _deleted
       _lastChangedAt
@@ -116,6 +253,7 @@ export const getTransaction = /* GraphQL */ `
           date
           amount
           transactionID
+          downloadURL
           _version
           _deleted
           _lastChangedAt
@@ -158,6 +296,9 @@ export const listTransactions = /* GraphQL */ `
         particular
         contract
         contractNumber
+        projectID
+        isDebit
+        customer
         _version
         _deleted
         _lastChangedAt
@@ -199,6 +340,9 @@ export const syncTransactions = /* GraphQL */ `
         particular
         contract
         contractNumber
+        projectID
+        isDebit
+        customer
         _version
         _deleted
         _lastChangedAt
@@ -226,6 +370,7 @@ export const getInvoice = /* GraphQL */ `
       date
       amount
       transactionID
+      downloadURL
       _version
       _deleted
       _lastChangedAt
@@ -247,6 +392,7 @@ export const listInvoices = /* GraphQL */ `
         date
         amount
         transactionID
+        downloadURL
         _version
         _deleted
         _lastChangedAt
@@ -277,6 +423,7 @@ export const syncInvoices = /* GraphQL */ `
         date
         amount
         transactionID
+        downloadURL
         _version
         _deleted
         _lastChangedAt
@@ -297,6 +444,7 @@ export const getAccount = /* GraphQL */ `
       specialBook
       name
       projectID
+      isUploaded
       _version
       _deleted
       _lastChangedAt
@@ -319,39 +467,6 @@ export const getAccount = /* GraphQL */ `
     }
   }
 `;
-
-export const getAccountTransactions = `
-  query GetAccount ($id: ID!) {
-    getAccount(id: $id) {
-      AccountTransactions {
-        items {
-          transaction {
-            id
-            amountInGJ
-            date
-            createdAt
-            particular
-            amountInInvoice
-          }
-        }
-      }
-    }
-  }
-`;
-
-export const getTransactiionInvoices = `
-  query GetAccount ($id: ID!) {
-    getTransaction(id: $id) {
-      Invoices {
-        items {
-          date
-          amount
-          invoiceNumber
-        }
-      }
-    }
-  }
-`;
 export const listAccounts = /* GraphQL */ `
   query ListAccounts(
     $filter: ModelAccountFilterInput
@@ -366,6 +481,7 @@ export const listAccounts = /* GraphQL */ `
         specialBook
         name
         projectID
+        isUploaded
         _version
         _deleted
         _lastChangedAt
@@ -401,6 +517,7 @@ export const syncAccounts = /* GraphQL */ `
         specialBook
         name
         projectID
+        isUploaded
         _version
         _deleted
         _lastChangedAt
@@ -447,6 +564,9 @@ export const syncAccountTransactions = /* GraphQL */ `
           particular
           contract
           contractNumber
+          projectID
+          isDebit
+          customer
           _version
           _deleted
           _lastChangedAt
@@ -460,6 +580,7 @@ export const syncAccountTransactions = /* GraphQL */ `
           specialBook
           name
           projectID
+          isUploaded
           _version
           _deleted
           _lastChangedAt

@@ -14,6 +14,10 @@ export enum Category {
 
 
 
+type NotificationMetaData = {
+  readOnlyFields: 'createdAt' | 'updatedAt';
+}
+
 type ProjectMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
@@ -34,12 +38,24 @@ type InvoiceMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
+export declare class Notification {
+  readonly id: string;
+  readonly user: string;
+  readonly message: string;
+  readonly createdAt?: string;
+  readonly updatedAt?: string;
+  constructor(init: ModelInit<Notification, NotificationMetaData>);
+  static copyOf(source: Notification, mutator: (draft: MutableModel<Notification, NotificationMetaData>) => MutableModel<Notification, NotificationMetaData> | void): Notification;
+}
+
 export declare class Project {
   readonly id: string;
   readonly projectName: string;
   readonly entriesURL?: string;
   readonly Accounts?: (Account | null)[];
   readonly owner?: string;
+  readonly Transactions?: (Transaction | null)[];
+  readonly bookIncomplete: string[];
   readonly createdAt?: string;
   readonly updatedAt?: string;
   constructor(init: ModelInit<Project, ProjectMetaData>);
@@ -54,6 +70,7 @@ export declare class Account {
   readonly name: string;
   readonly AccountTransactions?: (AccountTransaction | null)[];
   readonly projectID?: string;
+  readonly isUploaded?: boolean;
   readonly createdAt?: string;
   readonly updatedAt?: string;
   constructor(init: ModelInit<Account, AccountMetaData>);
@@ -81,6 +98,9 @@ export declare class Transaction {
   readonly contractNumber?: string;
   readonly accounts?: (AccountTransaction | null)[];
   readonly Invoices?: (Invoice | null)[];
+  readonly projectID?: string;
+  readonly isDebit?: boolean;
+  readonly customer?: string;
   readonly createdAt?: string;
   readonly updatedAt?: string;
   constructor(init: ModelInit<Transaction, TransactionMetaData>);
@@ -93,6 +113,7 @@ export declare class Invoice {
   readonly date?: string;
   readonly amount: number;
   readonly transactionID?: string;
+  readonly downloadURL: string;
   readonly createdAt?: string;
   readonly updatedAt?: string;
   constructor(init: ModelInit<Invoice, InvoiceMetaData>);

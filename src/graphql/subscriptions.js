@@ -1,6 +1,55 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
-
+export const userNotification = /* GraphQL */ `
+  subscription UserNotification($user: String!) {
+    userNotification(user: $user) {
+      user
+      message
+    }
+  }
+`;
+export const onCreateNotification = /* GraphQL */ `
+  subscription OnCreateNotification {
+    onCreateNotification {
+      id
+      user
+      message
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateNotification = /* GraphQL */ `
+  subscription OnUpdateNotification {
+    onUpdateNotification {
+      id
+      user
+      message
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteNotification = /* GraphQL */ `
+  subscription OnDeleteNotification {
+    onDeleteNotification {
+      id
+      user
+      message
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
+    }
+  }
+`;
 export const onCreateProject = /* GraphQL */ `
   subscription OnCreateProject {
     onCreateProject {
@@ -8,11 +57,34 @@ export const onCreateProject = /* GraphQL */ `
       projectName
       entriesURL
       owner
+      bookIncomplete
       _version
       _deleted
       _lastChangedAt
       createdAt
       updatedAt
+      Transactions {
+        items {
+          id
+          date
+          amountInGJ
+          amountInInvoice
+          amountInBook
+          particular
+          contract
+          contractNumber
+          projectID
+          isDebit
+          customer
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
       Accounts {
         items {
           id
@@ -21,6 +93,7 @@ export const onCreateProject = /* GraphQL */ `
           specialBook
           name
           projectID
+          isUploaded
           _version
           _deleted
           _lastChangedAt
@@ -40,11 +113,34 @@ export const onUpdateProject = /* GraphQL */ `
       projectName
       entriesURL
       owner
+      bookIncomplete
       _version
       _deleted
       _lastChangedAt
       createdAt
       updatedAt
+      Transactions {
+        items {
+          id
+          date
+          amountInGJ
+          amountInInvoice
+          amountInBook
+          particular
+          contract
+          contractNumber
+          projectID
+          isDebit
+          customer
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
       Accounts {
         items {
           id
@@ -53,6 +149,7 @@ export const onUpdateProject = /* GraphQL */ `
           specialBook
           name
           projectID
+          isUploaded
           _version
           _deleted
           _lastChangedAt
@@ -72,11 +169,34 @@ export const onDeleteProject = /* GraphQL */ `
       projectName
       entriesURL
       owner
+      bookIncomplete
       _version
       _deleted
       _lastChangedAt
       createdAt
       updatedAt
+      Transactions {
+        items {
+          id
+          date
+          amountInGJ
+          amountInInvoice
+          amountInBook
+          particular
+          contract
+          contractNumber
+          projectID
+          isDebit
+          customer
+          _version
+          _deleted
+          _lastChangedAt
+          createdAt
+          updatedAt
+        }
+        nextToken
+        startedAt
+      }
       Accounts {
         items {
           id
@@ -85,6 +205,7 @@ export const onDeleteProject = /* GraphQL */ `
           specialBook
           name
           projectID
+          isUploaded
           _version
           _deleted
           _lastChangedAt
@@ -108,6 +229,9 @@ export const onCreateTransaction = /* GraphQL */ `
       particular
       contract
       contractNumber
+      projectID
+      isDebit
+      customer
       _version
       _deleted
       _lastChangedAt
@@ -120,6 +244,7 @@ export const onCreateTransaction = /* GraphQL */ `
           date
           amount
           transactionID
+          downloadURL
           _version
           _deleted
           _lastChangedAt
@@ -157,6 +282,9 @@ export const onUpdateTransaction = /* GraphQL */ `
       particular
       contract
       contractNumber
+      projectID
+      isDebit
+      customer
       _version
       _deleted
       _lastChangedAt
@@ -169,6 +297,7 @@ export const onUpdateTransaction = /* GraphQL */ `
           date
           amount
           transactionID
+          downloadURL
           _version
           _deleted
           _lastChangedAt
@@ -206,6 +335,9 @@ export const onDeleteTransaction = /* GraphQL */ `
       particular
       contract
       contractNumber
+      projectID
+      isDebit
+      customer
       _version
       _deleted
       _lastChangedAt
@@ -218,6 +350,7 @@ export const onDeleteTransaction = /* GraphQL */ `
           date
           amount
           transactionID
+          downloadURL
           _version
           _deleted
           _lastChangedAt
@@ -252,6 +385,7 @@ export const onCreateInvoice = /* GraphQL */ `
       date
       amount
       transactionID
+      downloadURL
       _version
       _deleted
       _lastChangedAt
@@ -268,6 +402,7 @@ export const onUpdateInvoice = /* GraphQL */ `
       date
       amount
       transactionID
+      downloadURL
       _version
       _deleted
       _lastChangedAt
@@ -284,6 +419,7 @@ export const onDeleteInvoice = /* GraphQL */ `
       date
       amount
       transactionID
+      downloadURL
       _version
       _deleted
       _lastChangedAt
@@ -301,6 +437,7 @@ export const onCreateAccount = /* GraphQL */ `
       specialBook
       name
       projectID
+      isUploaded
       _version
       _deleted
       _lastChangedAt
@@ -332,6 +469,7 @@ export const onUpdateAccount = /* GraphQL */ `
       specialBook
       name
       projectID
+      isUploaded
       _version
       _deleted
       _lastChangedAt
@@ -363,6 +501,7 @@ export const onDeleteAccount = /* GraphQL */ `
       specialBook
       name
       projectID
+      isUploaded
       _version
       _deleted
       _lastChangedAt
@@ -405,6 +544,9 @@ export const onCreateAccountTransaction = /* GraphQL */ `
         particular
         contract
         contractNumber
+        projectID
+        isDebit
+        customer
         _version
         _deleted
         _lastChangedAt
@@ -426,6 +568,7 @@ export const onCreateAccountTransaction = /* GraphQL */ `
         specialBook
         name
         projectID
+        isUploaded
         _version
         _deleted
         _lastChangedAt
@@ -459,6 +602,9 @@ export const onUpdateAccountTransaction = /* GraphQL */ `
         particular
         contract
         contractNumber
+        projectID
+        isDebit
+        customer
         _version
         _deleted
         _lastChangedAt
@@ -480,6 +626,7 @@ export const onUpdateAccountTransaction = /* GraphQL */ `
         specialBook
         name
         projectID
+        isUploaded
         _version
         _deleted
         _lastChangedAt
@@ -513,6 +660,9 @@ export const onDeleteAccountTransaction = /* GraphQL */ `
         particular
         contract
         contractNumber
+        projectID
+        isDebit
+        customer
         _version
         _deleted
         _lastChangedAt
@@ -534,6 +684,7 @@ export const onDeleteAccountTransaction = /* GraphQL */ `
         specialBook
         name
         projectID
+        isUploaded
         _version
         _deleted
         _lastChangedAt

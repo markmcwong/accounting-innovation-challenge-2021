@@ -1,13 +1,15 @@
 import { API } from "aws-amplify";
 import InvoiceTable from "components/Table/InvoiceTable";
-import { generateAccountTransactionsFromURL } from "graphql/otherServices";
 import React, { Component, useEffect, useState } from "react";
-import Button from "react-bootstrap/Button";
-import { IoCaretBack } from "react-icons/io5";
+import {
+  IoCaretBack,
+  IoCheckmarkSharp,
+  IoCloseSharp,
+  IoWarningSharp,
+} from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import * as queries from "../graphql/queries";
-import MyDropzone from "../components/MyDropzone";
 
 const AccountTransactions = (props) => {
   let { id, transId } = useParams();
@@ -40,6 +42,7 @@ const AccountTransactions = (props) => {
   };
 
   useEffect(() => {
+    console.log(props.location.state);
     loadInvoices();
   }, []);
 
@@ -57,10 +60,17 @@ const AccountTransactions = (props) => {
           <div className="theme-colour pt-4 pb-2 font-medium">
             Current Amount Found
           </div>
-          <div>{props.location.state.amountFound ?? 0}</div>
+          <div>{props.location.state.amountInInvoice ?? 0}</div>
         </div>
         <div className="flex-col align-items-start text-left flex">
           <div className="theme-colour pt-4 pb-2 font-medium">Status</div>
+          {props.location.state.status === "#FF5018" ? (
+            <IoCloseSharp color="#FF5018" size="24" />
+          ) : props.location.state.status === "#28B22E" ? (
+            <IoCheckmarkSharp color="#28B22E" size="24" />
+          ) : (
+            <IoWarningSharp color="#FFCC16" size="24" />
+          )}
         </div>
       </div>
     );

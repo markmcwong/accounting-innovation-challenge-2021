@@ -13,6 +13,7 @@ export default function MyDropzone({
   file,
   prepend = "project/",
   description = "Accounting Entries",
+  acceptedFormat = ".csv",
 }) {
   // @ts-ignore
   // const uid = useSelector((state) => state.userState.user.attributes.sub);
@@ -53,6 +54,7 @@ export default function MyDropzone({
     onDrop,
     noClick: true,
     multiple: false,
+    accept: acceptedFormat,
   });
 
   useEffect(() => {

@@ -14,9 +14,10 @@ const Category = {
   "CAPITAL": "CAPITAL"
 };
 
-const { Project, Account, AccountTransaction, Transaction, Invoice } = initSchema(schema);
+const { Notification, Project, Account, AccountTransaction, Transaction, Invoice } = initSchema(schema);
 
 export {
+  Notification,
   Project,
   Account,
   AccountTransaction,

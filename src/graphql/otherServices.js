@@ -1,12 +1,14 @@
 import axios from "axios";
-
+import { trackPromise } from "react-promise-tracker";
 export const generateAccountTransactionsFromURL = async (
   projectId,
-  fileName
+  fileName,
+  userId
 ) => {
   var data = JSON.stringify({
     projectId,
     fileName,
+    userId,
   });
 
   var config = {
@@ -58,4 +60,61 @@ export const importInvoices = async (
     .catch(function (error) {
       console.log(error);
     });
+};
+export const parseDayBook = async (
+  projectId,
+  particular,
+  fileName,
+  accountId
+) => {
+  var data = JSON.stringify({
+    projectId,
+    particular,
+    fileName,
+    accountId,
+  });
+
+  var config = {
+    method: "post",
+    url: "https://zf58vmxzqa.execute-api.ap-southeast-1.amazonaws.com/default/parseBook",
+    headers: {
+      "x-api-key": "26ZQjV7pOm7GIOrkC2ExI45nv7Zsdowx4z4rGR9d",
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+
+  const response = await axios(config);
+  console.log(response.data);
+  return response.data;
+};
+
+export const parseCashBook = async (
+  projectId,
+  fileName,
+  cashId,
+  bankId,
+  particular
+) => {
+  var data = JSON.stringify({
+    projectId,
+    fileName,
+    cashId,
+    bankId,
+    particular,
+  });
+
+  var config = {
+    method: "post",
+    url: "https://zf58vmxzqa.execute-api.ap-southeast-1.amazonaws.com/default/parseCashBook",
+    headers: {
+      "x-api-key": "26ZQjV7pOm7GIOrkC2ExI45nv7Zsdowx4z4rGR9d",
+      "Content-Type": "application/json",
+    },
+    data: data,
+  };
+
+  const response = await axios(config);
+  console.log(response.data);
+  return response.data;
 };

@@ -10,6 +10,10 @@ export const getAccountTransactions = `
             createdAt
             particular
             amountInInvoice
+            isDebit
+            customer
+            amountInBook
+            contractNumber
           }
         }
       }
@@ -25,8 +29,24 @@ export const getTransactiionInvoices = `
           date
           amount
           invoiceNumber
+          downloadURL
         }
       }
+    }
+  }
+`;
+
+export const userNotification = /* GraphQL */ `
+  subscription UserNotification($user: String!) {
+    userNotification(user: $user) {
+      id
+      user
+      message
+      _version
+      _deleted
+      _lastChangedAt
+      createdAt
+      updatedAt
     }
   }
 `;
