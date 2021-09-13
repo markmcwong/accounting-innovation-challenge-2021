@@ -1,3 +1,14 @@
+## Tech Stack
+- Scanning Invoice and Receipts: AWS Textract
+- Cloud functions: AWS Lambda in Python
+  - parsing CSV and store as transactions
+  - extracting invoice files uploaded to S3 and pass to scanning service
+- Website: React + Redux, React-Bootstrap
+- Database: AWS AppSync + AWS DynamoDB in **GraphQL**
+- File Storage: AWS S3
+
+---
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
 ## Available Scripts
