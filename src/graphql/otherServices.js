@@ -13,9 +13,9 @@ export const generateAccountTransactionsFromURL = async (
 
   var config = {
     method: "post",
-    url: "https://lqxt8edds5.execute-api.ap-southeast-1.amazonaws.com/default/matchAccountToTransaction",
+    url: process.env.REACT_APP_LAMBDA_GJ_URL,
     headers: {
-      "X-API-Key": "nz2ycKNN0SikeU2PKU4VaviPAkuTjvL7IhG2jXQ0",
+      "X-API-Key": process.env.REACT_APP_LAMBDA_GJ_API_KEY,
       "Content-Type": "application/json",
     },
     data: data,
@@ -45,9 +45,9 @@ export const importInvoices = async (
 
   var config = {
     method: "post",
-    url: "https://ovrqkrq7p6.execute-api.ap-southeast-1.amazonaws.com/default/Textract",
+    url: process.env.REACT_APP_LAMBDA_IMPORT_INVOICE_URL,
     headers: {
-      "x-api-key": "Uk5PYdzwW43SiHJg8VJVu3wCAJeFhfdvaiADqM55",
+      "x-api-key": process.env.REACT_APP_LAMBDA_IMPORT_INVOICE_API_KEY,
       "Content-Type": "application/json",
     },
     data: data,
@@ -61,6 +61,7 @@ export const importInvoices = async (
       console.log(error);
     });
 };
+
 export const parseDayBook = async (
   projectId,
   particular,
@@ -76,9 +77,9 @@ export const parseDayBook = async (
 
   var config = {
     method: "post",
-    url: "https://zf58vmxzqa.execute-api.ap-southeast-1.amazonaws.com/default/parseBook",
+    url: process.env.REACT_APP_LAMBDA_PARSE_BOOK_URL,
     headers: {
-      "x-api-key": "26ZQjV7pOm7GIOrkC2ExI45nv7Zsdowx4z4rGR9d",
+      "x-api-key": process.env.REACT_APP_LAMBDA_PARSE_BOOK_API_KEY,
       "Content-Type": "application/json",
     },
     data: data,
@@ -106,9 +107,9 @@ export const parseCashBook = async (
 
   var config = {
     method: "post",
-    url: "https://zf58vmxzqa.execute-api.ap-southeast-1.amazonaws.com/default/parseCashBook",
+    url: process.env.REACT_APP_LAMBDA_PARSE_CASH_BOOK_URL,
     headers: {
-      "x-api-key": "26ZQjV7pOm7GIOrkC2ExI45nv7Zsdowx4z4rGR9d",
+      "x-api-key": process.env.REACT_APP_LAMBDA_PARSE_BOOK_API_KEY,
       "Content-Type": "application/json",
     },
     data: data,
