@@ -2,7 +2,7 @@ import API, { graphqlOperation } from "@aws-amplify/api";
 import { csvToDB } from "graphql/mutations";
 import { generateAccountTransactionsFromURL } from "graphql/otherServices";
 import React, { useState, useEffect } from "react";
-import Accordion from "react-bootstrap/accordion";
+import Accordion from "react-bootstrap/Accordion";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import * as queries from "../graphql/queries";
