@@ -14,16 +14,6 @@
     "categories": {
       "auth": {
         "aic2021d309b982": {}
-      },
-      "function": {
-        "csvToDB": {
-          "deploymentBucketName": "amplify-aic2021-dev-00904-deployment",
-          "s3Key": "amplify-builds/csvToDB-6665744e626c634b3766-build.zip"
-        },
-        "transactionToAccounts": {
-          "deploymentBucketName": "amplify-aic2021-dev-00904-deployment",
-          "s3Key": "amplify-builds/transactionToAccounts-616645556b39634c2b48-build.zip"
-        }
       }
     }
   }

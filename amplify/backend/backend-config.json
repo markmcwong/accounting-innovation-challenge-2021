@@ -57,17 +57,5 @@
       "providerPlugin": "awscloudformation"
     }
   },
-  "function": {
-    "csvToDB": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda",
-      "dependsOn": []
-    },
-    "transactionToAccounts": {
-      "build": true,
-      "providerPlugin": "awscloudformation",
-      "service": "Lambda"
-    }
-  }
+  "function": {}
 }
