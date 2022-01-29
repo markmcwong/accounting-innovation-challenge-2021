@@ -2,7 +2,8 @@
 
 ## Our Solution - *Art-Counting*
 
-We are developing ***Art-Counting*, an automated data extraction and data matching platform,** to help **track supporting documents in vouchering**, especially in the process of **test of details**.
+> *Art-Counting* - 
+> An **automated data extraction and data matching platform**, to help **track supporting documents in vouchering**, especially in the process of **test of details**
 
 Our product provides services from **scanning and extracting** relevant information from documents such as **authentic source documents** (e.g., **vendor invoice in .pdf / .jpg** format), **bank statements (.pdf / .csv / .xlsx) and accounting entries (.xlsx / .csv)** to **matching** them with **transactions**, and even report the output in the form of **dashboards** - with **alerts** to save auditors' time in searching for relevant documents. 
 
